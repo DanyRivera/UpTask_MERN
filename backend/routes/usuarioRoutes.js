@@ -9,7 +9,7 @@ import {
     perfil
 } from "../controllers/usuarioController.js";
 
-import checkout from "../middleware/checkout.js";
+import checkAuth from "../middleware/checkAuth.js";
  
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.route('/olvide-password/:token').get(comprobarToken).post(nuevoPassword)
 // router.get('/olvide-password/:token', comprobarToken) //Comprobar el token para resetear password
 // router.post('/olvide-password/:token', nuevoPassword) //Almacenar nueva password
 
-router.get('/perfil', checkout, perfil) //Proteger endpoint con el middleware chechout
+router.get('/perfil', checkAuth, perfil) //Proteger endpoint con el middleware chechout
 
 export default router;
 
