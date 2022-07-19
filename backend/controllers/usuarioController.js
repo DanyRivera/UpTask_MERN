@@ -1,7 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
-import { emailRegistro } from "../helpers/emails.js";
+import { emailRegistro, emailOlvidePassword } from "../helpers/emails.js";
 
 const registrar = async (req, res) => {
 
@@ -26,7 +26,7 @@ const registrar = async (req, res) => {
             token: usuario.token
         })
 
-        res.json({msg: "Usuario Registrado Correctamente, Revisa tu Email para Confirmar tu Cuenta!"});
+        res.json({ msg: "Usuario Registrado Correctamente, Revisa tu Email para Confirmar tu Cuenta!" });
 
     } catch (error) {
         console.log(error.message);
@@ -101,7 +101,7 @@ const olvidePassword = async (req, res) => {
 
     if (!usuario) {
         const error = new Error("El usuario no existe");
-        return res.status(400).json({ msg: error.message })
+        return res.status(404).json({ msg: error.message })
     }
 
     try {
@@ -109,6 +109,12 @@ const olvidePassword = async (req, res) => {
         usuario.token = generarId();
         await usuario.save();
         res.json({ msg: "Hemos enviado un email con las instrucciones" });
+
+        emailOlvidePassword({
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: usuario.token
+        })
 
     } catch (error) {
         console.log(error);
@@ -161,8 +167,8 @@ const nuevoPassword = async (req, res) => {
 
 const perfil = async (req, res) => {
 
-    const {usuario} = req;
-    res.json({usuario});
+    const { usuario } = req;
+    res.json({ usuario });
 
 }
 
