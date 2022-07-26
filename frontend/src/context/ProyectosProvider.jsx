@@ -1,9 +1,12 @@
 import { useState, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 import clienteAxios from "../config/clienteAxios";
 
 const ProyectosContext = createContext();
 
 const ProyectosProvider = ({ children }) => {
+
+    const navigate = useNavigate();
 
     const [proyectos, setProyectos] = useState([]);
     const [alerta, setAlerta] = useState({})
@@ -31,9 +34,17 @@ const ProyectosProvider = ({ children }) => {
                 }
             }
 
-            const {data} = await clienteAxios.post('/proyectos', proyecto, config);
+            await clienteAxios.post('/proyectos', proyecto, config);
 
-            console.log(data)
+            setAlerta({
+                msg: "Proyecto creado correctamente",
+                error: false
+            })
+
+            setTimeout(() => {
+                setAlerta({});
+                navigate('/proyectos')
+            }, 3000);
 
         } catch (error) {
             console.log(error)

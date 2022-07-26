@@ -11,7 +11,7 @@ const FormularioProyecto = () => {
     const [fechaEntrega, setFechaEntrega] = useState('')
     const [cliente, setCliente] = useState('')
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         if([nombre, descripcion, fechaEntrega, cliente].includes('')) {
@@ -23,12 +23,17 @@ const FormularioProyecto = () => {
         }
 
         //Pasar los datos para el provider
-        submitProyecto({
+        await submitProyecto({
             nombre,
             descripcion,
             fechaEntrega,
             cliente
-        })
+        });
+
+        setNombre('');
+        setDescripcion('');
+        setFechaEntrega('');
+        setCliente('');
     }
 
     return (
