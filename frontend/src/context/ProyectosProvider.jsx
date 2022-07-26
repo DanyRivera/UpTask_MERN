@@ -26,7 +26,7 @@ const ProyectosProvider = ({ children }) => {
 
             const config = {
                 headers: {
-                    "Content-Type": "application-json",
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 }
             }
@@ -34,7 +34,6 @@ const ProyectosProvider = ({ children }) => {
             const {data} = await clienteAxios.post('/proyectos', proyecto, config);
 
             console.log(data)
-            console.log(proyecto)
 
         } catch (error) {
             console.log(error)
